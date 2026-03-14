@@ -1,0 +1,893 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mohammed Riyaz A — Full Stack .NET Developer</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,700;1,300&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0e1a;
+    --bg2: #0f1525;
+    --bg3: #151d35;
+    --accent: #00d4ff;
+    --accent2: #7c3aed;
+    --accent3: #10b981;
+    --text: #e8edf5;
+    --text2: #8b9ab5;
+    --border: rgba(0,212,255,0.15);
+    --card: rgba(15,21,37,0.8);
+    --mono: 'Space Mono', monospace;
+    --sans: 'DM Sans', sans-serif;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--sans);
+    font-weight: 300;
+    overflow-x: hidden;
+  }
+
+  /* NOISE OVERLAY */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* GRID BACKGROUND */
+  body::after {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(0,212,255,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0,212,255,0.03) 1px, transparent 1px);
+    background-size: 60px 60px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 60px;
+    background: rgba(10,14,26,0.85);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .nav-logo {
+    font-family: var(--mono);
+    font-size: 14px;
+    color: var(--accent);
+    letter-spacing: 2px;
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 40px;
+    list-style: none;
+  }
+
+  .nav-links a {
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--text2);
+    text-decoration: none;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    transition: color 0.3s;
+    position: relative;
+  }
+
+  .nav-links a::after {
+    content: '';
+    position: absolute;
+    bottom: -4px; left: 0;
+    width: 0; height: 1px;
+    background: var(--accent);
+    transition: width 0.3s;
+  }
+
+  .nav-links a:hover { color: var(--accent); }
+  .nav-links a:hover::after { width: 100%; }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    padding: 120px 60px 60px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .hero-content { max-width: 700px; }
+
+  .hero-tag {
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--accent);
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    margin-bottom: 24px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.2s forwards;
+  }
+
+  .hero-tag::before {
+    content: '';
+    width: 40px; height: 1px;
+    background: var(--accent);
+  }
+
+  .hero h1 {
+    font-family: var(--sans);
+    font-size: clamp(42px, 7vw, 80px);
+    font-weight: 700;
+    line-height: 1.05;
+    margin-bottom: 24px;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.4s forwards;
+  }
+
+  .hero h1 span {
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .hero-desc {
+    font-size: 18px;
+    color: var(--text2);
+    line-height: 1.7;
+    max-width: 560px;
+    margin-bottom: 48px;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.6s forwards;
+  }
+
+  .hero-btns {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.8s forwards;
+  }
+
+  .btn-primary {
+    padding: 14px 32px;
+    background: var(--accent);
+    color: var(--bg);
+    font-family: var(--mono);
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-decoration: none;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s;
+    clip-path: polygon(8px 0%, 100% 0%, calc(100% - 8px) 100%, 0% 100%);
+  }
+
+  .btn-primary:hover {
+    background: #fff;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 30px rgba(0,212,255,0.3);
+  }
+
+  .btn-outline {
+    padding: 14px 32px;
+    background: transparent;
+    color: var(--accent);
+    font-family: var(--mono);
+    font-size: 13px;
+    letter-spacing: 1px;
+    text-decoration: none;
+    border: 1px solid var(--accent);
+    transition: all 0.3s;
+    clip-path: polygon(8px 0%, 100% 0%, calc(100% - 8px) 100%, 0% 100%);
+  }
+
+  .btn-outline:hover {
+    background: rgba(0,212,255,0.1);
+    transform: translateY(-2px);
+  }
+
+  /* FLOATING STATS */
+  .hero-stats {
+    position: absolute;
+    right: 60px;
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    opacity: 0;
+    animation: fadeLeft 0.8s 1s forwards;
+  }
+
+  .stat-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    padding: 20px 28px;
+    text-align: center;
+    backdrop-filter: blur(10px);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .stat-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, var(--accent), var(--accent2));
+  }
+
+  .stat-number {
+    font-family: var(--mono);
+    font-size: 32px;
+    font-weight: 700;
+    color: var(--accent);
+    line-height: 1;
+  }
+
+  .stat-label {
+    font-size: 11px;
+    color: var(--text2);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-top: 6px;
+  }
+
+  /* SECTIONS */
+  section {
+    padding: 100px 60px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .section-label {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--accent);
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .section-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+    max-width: 80px;
+  }
+
+  .section-title {
+    font-size: clamp(28px, 4vw, 42px);
+    font-weight: 700;
+    margin-bottom: 60px;
+    line-height: 1.2;
+  }
+
+  /* SKILLS */
+  #skills { background: var(--bg2); }
+
+  .skills-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 24px;
+  }
+
+  .skill-category {
+    background: var(--card);
+    border: 1px solid var(--border);
+    padding: 28px;
+    position: relative;
+    overflow: hidden;
+    transition: border-color 0.3s, transform 0.3s;
+  }
+
+  .skill-category:hover {
+    border-color: var(--accent);
+    transform: translateY(-4px);
+  }
+
+  .skill-category::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0;
+    width: 0; height: 2px;
+    background: linear-gradient(90deg, var(--accent), var(--accent2));
+    transition: width 0.4s;
+  }
+
+  .skill-category:hover::after { width: 100%; }
+
+  .skill-cat-title {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--accent);
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    margin-bottom: 16px;
+  }
+
+  .skill-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .skill-tag {
+    padding: 5px 12px;
+    background: rgba(0,212,255,0.08);
+    border: 1px solid rgba(0,212,255,0.2);
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--text);
+    letter-spacing: 0.5px;
+    transition: all 0.2s;
+  }
+
+  .skill-tag:hover {
+    background: rgba(0,212,255,0.15);
+    color: var(--accent);
+  }
+
+  /* EXPERIENCE */
+  .timeline {
+    position: relative;
+    padding-left: 40px;
+  }
+
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 8px; bottom: 8px;
+    width: 1px;
+    background: linear-gradient(180deg, var(--accent), var(--accent2), transparent);
+  }
+
+  .timeline-item {
+    position: relative;
+    margin-bottom: 60px;
+    opacity: 0;
+    transform: translateX(-20px);
+    transition: all 0.6s;
+  }
+
+  .timeline-item.visible {
+    opacity: 1;
+    transform: translateX(0);
+  }
+
+  .timeline-dot {
+    position: absolute;
+    left: -47px;
+    top: 6px;
+    width: 14px; height: 14px;
+    background: var(--accent);
+    border: 2px solid var(--bg);
+    border-radius: 50%;
+    box-shadow: 0 0 12px var(--accent);
+  }
+
+  .timeline-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 6px;
+  }
+
+  .timeline-company {
+    font-weight: 700;
+    font-size: 18px;
+    color: var(--text);
+  }
+
+  .timeline-period {
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--accent);
+    background: rgba(0,212,255,0.1);
+    padding: 4px 10px;
+    border: 1px solid var(--border);
+  }
+
+  .timeline-role {
+    font-size: 14px;
+    color: var(--accent2);
+    margin-bottom: 16px;
+    font-weight: 500;
+  }
+
+  .timeline-points {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .timeline-points li {
+    font-size: 14px;
+    color: var(--text2);
+    line-height: 1.6;
+    padding-left: 16px;
+    position: relative;
+  }
+
+  .timeline-points li::before {
+    content: '▸';
+    position: absolute;
+    left: 0;
+    color: var(--accent);
+    font-size: 10px;
+    top: 3px;
+  }
+
+  /* PROJECTS */
+  #projects { background: var(--bg2); }
+
+  .projects-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+    gap: 28px;
+  }
+
+  .project-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    padding: 32px;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.4s;
+    cursor: pointer;
+  }
+
+  .project-card::before {
+    content: '';
+    position: absolute;
+    top: -100%; left: -100%;
+    width: 300%; height: 300%;
+    background: radial-gradient(circle at center, rgba(0,212,255,0.05), transparent 60%);
+    transition: all 0.5s;
+  }
+
+  .project-card:hover::before {
+    top: -50%; left: -50%;
+  }
+
+  .project-card:hover {
+    border-color: var(--accent);
+    transform: translateY(-6px);
+    box-shadow: 0 20px 60px rgba(0,212,255,0.1);
+  }
+
+  .project-number {
+    font-family: var(--mono);
+    font-size: 48px;
+    font-weight: 700;
+    color: rgba(0,212,255,0.08);
+    position: absolute;
+    top: 16px; right: 24px;
+    line-height: 1;
+  }
+
+  .project-title {
+    font-size: 20px;
+    font-weight: 700;
+    margin-bottom: 12px;
+    color: var(--text);
+  }
+
+  .project-desc {
+    font-size: 14px;
+    color: var(--text2);
+    line-height: 1.7;
+    margin-bottom: 20px;
+  }
+
+  .project-stack {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+
+  .stack-tag {
+    font-family: var(--mono);
+    font-size: 10px;
+    padding: 3px 8px;
+    background: rgba(124,58,237,0.15);
+    border: 1px solid rgba(124,58,237,0.3);
+    color: #a78bfa;
+    letter-spacing: 0.5px;
+  }
+
+  /* CONTACT */
+  #contact {
+    text-align: center;
+    background: var(--bg3);
+  }
+
+  .contact-wrapper {
+    max-width: 600px;
+    margin: 0 auto;
+  }
+
+  .contact-email {
+    font-family: var(--mono);
+    font-size: clamp(16px, 3vw, 24px);
+    color: var(--accent);
+    text-decoration: none;
+    display: block;
+    margin: 32px 0;
+    padding: 20px;
+    border: 1px solid var(--border);
+    transition: all 0.3s;
+    letter-spacing: 1px;
+  }
+
+  .contact-email:hover {
+    background: rgba(0,212,255,0.05);
+    border-color: var(--accent);
+    box-shadow: 0 0 30px rgba(0,212,255,0.15);
+  }
+
+  .social-links {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin-top: 32px;
+    flex-wrap: wrap;
+  }
+
+  .social-link {
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--text2);
+    text-decoration: none;
+    padding: 10px 20px;
+    border: 1px solid var(--border);
+    letter-spacing: 1px;
+    transition: all 0.3s;
+    text-transform: uppercase;
+  }
+
+  .social-link:hover {
+    color: var(--accent);
+    border-color: var(--accent);
+    background: rgba(0,212,255,0.05);
+  }
+
+  /* FOOTER */
+  footer {
+    text-align: center;
+    padding: 24px;
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--text2);
+    border-top: 1px solid var(--border);
+    position: relative;
+    z-index: 1;
+    letter-spacing: 1px;
+  }
+
+  /* ANIMATIONS */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes fadeLeft {
+    from { opacity: 0; transform: translateX(30px) translateY(-50%); }
+    to { opacity: 1; transform: translateX(0) translateY(-50%); }
+  }
+
+  /* SCROLLBAR */
+  ::-webkit-scrollbar { width: 4px; }
+  ::-webkit-scrollbar-track { background: var(--bg); }
+  ::-webkit-scrollbar-thumb { background: var(--accent); }
+
+  /* CURSOR GLOW */
+  .cursor-glow {
+    width: 400px; height: 400px;
+    background: radial-gradient(circle, rgba(0,212,255,0.06), transparent 70%);
+    border-radius: 50%;
+    position: fixed;
+    pointer-events: none;
+    z-index: 0;
+    transform: translate(-50%, -50%);
+    transition: all 0.1s;
+  }
+
+  @media (max-width: 768px) {
+    nav { padding: 16px 24px; }
+    .nav-links { display: none; }
+    .hero { padding: 100px 24px 60px; }
+    .hero-stats { display: none; }
+    section { padding: 60px 24px; }
+    .projects-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<div class="cursor-glow" id="cursorGlow"></div>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">MR.DEV</div>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#experience">Experience</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="about">
+  <div class="hero-content">
+    <div class="hero-tag">Available for opportunities in Egypt</div>
+    <h1>Mohammed<br><span>Riyaz A</span></h1>
+    <p class="hero-desc">Full Stack .NET Developer building enterprise-grade web applications. Specialist in C#, ASP.NET Core, REST APIs, SAP integrations, and database migrations.</p>
+    <div class="hero-btns">
+      <a href="mailto:iamriyaz1001@gmail.com" class="btn-primary">Hire Me</a>
+      <a href="https://github.com/RiyazGITTY" target="_blank" class="btn-outline">View GitHub</a>
+    </div>
+  </div>
+
+  <div class="hero-stats">
+    <div class="stat-card">
+      <div class="stat-number">3.6</div>
+      <div class="stat-label">Years Exp</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-number">2</div>
+      <div class="stat-label">Companies</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-number">10+</div>
+      <div class="stat-label">Modules Built</div>
+    </div>
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section id="skills">
+  <div class="section-label">What I Work With</div>
+  <h2 class="section-title">Technical Skills</h2>
+  <div class="skills-grid">
+    <div class="skill-category">
+      <div class="skill-cat-title">Backend</div>
+      <div class="skill-tags">
+        <span class="skill-tag">C#</span>
+        <span class="skill-tag">ASP.NET Core</span>
+        <span class="skill-tag">ASP.NET MVC</span>
+        <span class="skill-tag">Web API</span>
+        <span class="skill-tag">REST APIs</span>
+        <span class="skill-tag">EF Core</span>
+        <span class="skill-tag">LINQ</span>
+        <span class="skill-tag">Background Services</span>
+        <span class="skill-tag">JWT Auth</span>
+      </div>
+    </div>
+    <div class="skill-category">
+      <div class="skill-cat-title">Frontend</div>
+      <div class="skill-tags">
+        <span class="skill-tag">HTML5</span>
+        <span class="skill-tag">CSS3</span>
+        <span class="skill-tag">Bootstrap</span>
+        <span class="skill-tag">JavaScript</span>
+        <span class="skill-tag">jQuery</span>
+        <span class="skill-tag">Angular</span>
+        <span class="skill-tag">React</span>
+      </div>
+    </div>
+    <div class="skill-category">
+      <div class="skill-cat-title">Databases</div>
+      <div class="skill-tags">
+        <span class="skill-tag">SQL Server</span>
+        <span class="skill-tag">Oracle (PL/SQL)</span>
+        <span class="skill-tag">PostgreSQL</span>
+        <span class="skill-tag">DB Migration</span>
+      </div>
+    </div>
+    <div class="skill-category">
+      <div class="skill-cat-title">Tools & Cloud</div>
+      <div class="skill-tags">
+        <span class="skill-tag">Git</span>
+        <span class="skill-tag">Visual Studio</span>
+        <span class="skill-tag">Postman</span>
+        <span class="skill-tag">Azure (AZ-900)</span>
+        <span class="skill-tag">Microservices</span>
+        <span class="skill-tag">SAP Integration</span>
+        <span class="skill-tag">Agile/Scrum</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EXPERIENCE -->
+<section id="experience">
+  <div class="section-label">Career Journey</div>
+  <h2 class="section-title">Work Experience</h2>
+  <div class="timeline">
+
+    <div class="timeline-item">
+      <div class="timeline-dot"></div>
+      <div class="timeline-header">
+        <div class="timeline-company">ADR Infotech — Rane Group</div>
+        <div class="timeline-period">Oct 2023 – Present</div>
+      </div>
+      <div class="timeline-role">Junior .NET Developer</div>
+      <ul class="timeline-points">
+        <li>Built .NET MVC & Web API apps integrating with SAP for Capex, TAMS, GRN, Workflow, and Digital Signature modules</li>
+        <li>Developed .NET Core background services to automate SAP data fetching and sync</li>
+        <li>Designed secure REST APIs for internal systems and mobile apps</li>
+        <li>Led Oracle to PostgreSQL database migration — zero data loss, improved query performance</li>
+        <li>Modernized ASPX apps to .NET Core MVC with Bootstrap UI and JWT-based auth</li>
+      </ul>
+    </div>
+
+    <div class="timeline-item">
+      <div class="timeline-dot" style="background: var(--accent2); box-shadow: 0 0 12px var(--accent2);"></div>
+      <div class="timeline-header">
+        <div class="timeline-company">Human Cloud Soft</div>
+        <div class="timeline-period">Jul 2022 – Oct 2023</div>
+      </div>
+      <div class="timeline-role">Software Trainee — Full Stack .NET Developer</div>
+      <ul class="timeline-points">
+        <li>Developed ERP warehouse modules — inventory, dispatch, inward/outward, stock movement tracking</li>
+        <li>Built responsive UI screens using Bootstrap and improved UX for operations teams</li>
+        <li>Wrote SQL stored procedures and optimized backend logic for high-volume transactions</li>
+        <li>Followed Agile practices — sprint planning, testing, and continuous delivery</li>
+      </ul>
+    </div>
+
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects">
+  <div class="section-label">What I've Built</div>
+  <h2 class="section-title">Featured Projects</h2>
+  <div class="projects-grid">
+
+    <div class="project-card">
+      <div class="project-number">01</div>
+      <div class="project-title">SAP Integration Platform</div>
+      <p class="project-desc">Enterprise-grade .NET solution integrating with SAP for Rane Group. Automated business workflows including Capex approvals, GRN processing, TAMS tracking, and Digital Signatures with real-time data sync and email alerts.</p>
+      <div class="project-stack">
+        <span class="stack-tag">C#</span>
+        <span class="stack-tag">ASP.NET Core</span>
+        <span class="stack-tag">Web API</span>
+        <span class="stack-tag">SAP</span>
+        <span class="stack-tag">PostgreSQL</span>
+        <span class="stack-tag">JWT</span>
+        <span class="stack-tag">Background Services</span>
+      </div>
+    </div>
+
+    <div class="project-card">
+      <div class="project-number">02</div>
+      <div class="project-title">Oracle → PostgreSQL Migration</div>
+      <p class="project-desc">Full database migration for a production ERP system. Handled schema redesign, PL/SQL to PL/pgSQL conversion, data validation, and performance tuning — zero data loss, improved query speed by 40%.</p>
+      <div class="project-stack">
+        <span class="stack-tag">Oracle</span>
+        <span class="stack-tag">PostgreSQL</span>
+        <span class="stack-tag">PL/SQL</span>
+        <span class="stack-tag">PL/pgSQL</span>
+        <span class="stack-tag">Data Migration</span>
+      </div>
+    </div>
+
+    <div class="project-card">
+      <div class="project-number">03</div>
+      <div class="project-title">ERP Warehouse Management</div>
+      <p class="project-desc">Built end-to-end warehouse workflow modules for an ERP system — covering inventory management, dispatch, inward/outward processing, stock movement, and location tracking for storekeepers and supervisors.</p>
+      <div class="project-stack">
+        <span class="stack-tag">C#</span>
+        <span class="stack-tag">ASP.NET</span>
+        <span class="stack-tag">SQL Server</span>
+        <span class="stack-tag">Bootstrap</span>
+        <span class="stack-tag">JavaScript</span>
+      </div>
+    </div>
+
+    <div class="project-card">
+      <div class="project-number">04</div>
+      <div class="project-title">ASPX → .NET Core Modernization</div>
+      <p class="project-desc">Upgraded legacy ASPX applications to modern .NET Core MVC architecture. Added JWT-based authentication, role-based access control, Bootstrap responsive UI, and improved load times significantly.</p>
+      <div class="project-stack">
+        <span class="stack-tag">ASP.NET Core</span>
+        <span class="stack-tag">MVC</span>
+        <span class="stack-tag">JWT</span>
+        <span class="stack-tag">Bootstrap</span>
+        <span class="stack-tag">Modernization</span>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="contact-wrapper">
+    <div class="section-label" style="justify-content:center">Get In Touch</div>
+    <h2 class="section-title">Let's Work Together</h2>
+    <p style="color:var(--text2); font-size:16px; line-height:1.7; margin-bottom:8px;">
+      I'm actively looking for Full Stack .NET Developer opportunities in Egypt. If you have a role or project that fits, I'd love to connect.
+    </p>
+    <a href="mailto:iamriyaz1001@gmail.com" class="contact-email">iamriyaz1001@gmail.com</a>
+    <div class="social-links">
+      <a href="https://www.linkedin.com/in/mohammedriyazdeveloper" target="_blank" class="social-link">LinkedIn</a>
+      <a href="https://github.com/RiyazGITTY" target="_blank" class="social-link">GitHub</a>
+      <a href="tel:+918489868675" class="social-link">+91 848 986 8675</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  &copy; 2026 Mohammed Riyaz A — Built with passion. Open to opportunities in Egypt.
+</footer>
+
+<script>
+  // Cursor glow
+  const glow = document.getElementById('cursorGlow');
+  document.addEventListener('mousemove', e => {
+    glow.style.left = e.clientX + 'px';
+    glow.style.top = e.clientY + 'px';
+  });
+
+  // Scroll animations
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) entry.target.classList.add('visible');
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.timeline-item').forEach(el => observer.observe(el));
+
+  // Typing effect in hero tag
+  const tag = document.querySelector('.hero-tag');
+  const originalText = 'Available for opportunities in Egypt';
+  tag.childNodes[tag.childNodes.length - 1].textContent = '';
+  let i = 0;
+  setTimeout(() => {
+    const interval = setInterval(() => {
+      tag.childNodes[tag.childNodes.length - 1].textContent += originalText[i];
+      i++;
+      if (i >= originalText.length) clearInterval(interval);
+    }, 40);
+  }, 500);
+</script>
+</body>
+</html>
